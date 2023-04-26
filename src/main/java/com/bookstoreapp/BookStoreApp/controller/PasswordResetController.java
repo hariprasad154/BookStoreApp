@@ -23,6 +23,6 @@ public class PasswordResetController {
     }
     @PutMapping("/varify")
     public ResponceDto validation(@RequestBody Verification validation ){
-        return regstationService.varify(validation) ;
+        return regstationService.varify(validation);
     }
 }

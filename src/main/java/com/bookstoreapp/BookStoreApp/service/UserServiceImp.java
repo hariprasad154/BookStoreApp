@@ -49,7 +49,6 @@ public class UserServiceImp implements UserService{
             }
         }
     }
-
     @Override
     public ResponceDto varify(Verification verification) {
         String email=verification.getEmail();
