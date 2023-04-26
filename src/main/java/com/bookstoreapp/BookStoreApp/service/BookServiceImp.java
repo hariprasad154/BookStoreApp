@@ -11,6 +11,8 @@ import com.bookstoreapp.BookStoreApp.util.JWTToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookServiceImp implements BookService{
     @Autowired
@@ -36,5 +38,19 @@ public class BookServiceImp implements BookService{
     @Override
     public BookStore getById(int id) {
         return bookRepo.findById(id).orElseThrow(() -> new CustomeException(" Data Not found .. wih id: "+ id));
+    }
+
+    @Override
+    public List<BookStore> getAllData() {
+        return bookRepo.findAll();
+    }
+
+    @Override
+    public List<BookStore> getBookByName(String name) {
+        List<BookStore> books =bookRepo.getBookByName(name);
+        for (Object x:books) {
+            System.out.println("The books "+x);
+        }
+        return books;
     }
 }

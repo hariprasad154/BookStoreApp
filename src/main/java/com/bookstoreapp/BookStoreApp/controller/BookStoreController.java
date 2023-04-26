@@ -3,9 +3,12 @@ package com.bookstoreapp.BookStoreApp.controller;
 import com.bookstoreapp.BookStoreApp.DTO.BookStoreDto;
 import com.bookstoreapp.BookStoreApp.DTO.ResponceDto;
 import com.bookstoreapp.BookStoreApp.model.BookStore;
+import com.bookstoreapp.BookStoreApp.model.UserModel;
 import com.bookstoreapp.BookStoreApp.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/book")
@@ -24,6 +27,16 @@ public class BookStoreController {
     @GetMapping("/{id}")
     public BookStore getById(@PathVariable int id){
         return bookService.getById(id);
+    }
+    @GetMapping("/allbooks")
+    public  ResponceDto getAllData(){
+        List<BookStore> books=bookService.getAllData();
+        return new ResponceDto("The all Books Present In Store",books);
+
+    }
+    @GetMapping("bookname/{name}")
+    public List<BookStore> getBookByName(@RequestParam String name){
+        return bookService.getBookByName(name);
     }
 
 }
