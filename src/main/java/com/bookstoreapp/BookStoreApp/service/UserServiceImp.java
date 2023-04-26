@@ -31,12 +31,18 @@ public class UserServiceImp implements UserService{
         String email =login.getEmail();
         String password=login.getPassword();
         String varifyPassword=userRepo.getPassword(email);
-        String token=userRepo.getVarifyOtp(email);
-        if (password.equals(varifyPassword) &&token!=null ){
-            return new ResponceDto("login successfull..... for "+ "token \n "+token,login.getEmail());
+        int id=userRepo.findIdByEmail(email);
+        boolean varify=userRepo.getVarifyOtp(email);
+        System.out.println("token result -"+varify);
+        if (password.equals(varifyPassword) &&varify==true ){
+            Optional<UserModel> data=userRepo.findById(id);
+            String token=jwtToken.createToken(id);
+            data.get().setToken(token);
+            userRepo.save(data.get());
+            return new ResponceDto("login successfull..... for ", "token :- "+token);
         }
         else{
-            if(varifyPassword!=null &&token == null){
+            if(varifyPassword!=null &&varify == false){
                 return new ResponceDto("The validation not done ","Validate the otp to login");
             }else {
                 return new ResponceDto(" check the email and password", "The incorrect credentials");
@@ -50,11 +56,9 @@ public class UserServiceImp implements UserService{
         int id =userRepo.findIdByEmail(email);
         Optional<UserModel> data=userRepo.findById(id);
         if (verification.getOtp()==data.get().getOtp()){
-            String token=jwtToken.createToken(id);
             data.get().setVarifyOtp(true);
-            data.get().setToken(token);
             userRepo.save(data.get());
-            return new ResponceDto("The data registerd succsusfully  and genarated token ", "Token is :- "+token);
+            return new ResponceDto("The Varification done for email ", email);
         }else {
             return new ResponceDto("Varification not done check the mail ","give correct data");
         }
@@ -116,5 +120,7 @@ The Curd opporations
         userRepo.delete(userData);
         return "The data is deleted";
     }
+
+
 
 }

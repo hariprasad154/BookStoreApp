@@ -28,4 +28,6 @@ public interface UserService {
     UserModel getdataByToken(String token);
 
     String deletedataByToken(String token);
+
+
 }

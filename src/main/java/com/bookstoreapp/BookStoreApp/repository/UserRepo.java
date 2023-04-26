@@ -12,6 +12,6 @@ public interface UserRepo extends org.springframework.data.jpa.repository.JpaRep
     int findIdByEmail(String email);
     @Query(value = "select password from user_model where email= :email",nativeQuery = true)
     String getPassword(String email);
-    @Query(value = "select token from user_model where email= :email",nativeQuery = true)
-    String getVarifyOtp(String email);
+    @Query(value = "select varify_otp from user_model where email= :email",nativeQuery = true)
+    boolean getVarifyOtp(String email);
 }
