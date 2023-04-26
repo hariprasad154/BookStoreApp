@@ -53,4 +53,11 @@ public class BookServiceImp implements BookService{
         }
         return books;
     }
+
+    @Override
+    public ResponceDto deleteById(int id) {
+        BookStore book=this.getById(id);
+        bookRepo.deleteById(id);
+        return new ResponceDto("The Data has deleted",id);
+    }
 }

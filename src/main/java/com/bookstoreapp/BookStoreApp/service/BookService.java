@@ -16,4 +16,6 @@ public interface BookService {
     List<BookStore> getAllData();
 
     List<BookStore> getBookByName(String name);
+
+    ResponceDto deleteById(int id);
 }

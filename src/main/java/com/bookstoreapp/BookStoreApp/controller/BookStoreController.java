@@ -32,11 +32,14 @@ public class BookStoreController {
     public  ResponceDto getAllData(){
         List<BookStore> books=bookService.getAllData();
         return new ResponceDto("The all Books Present In Store",books);
-
     }
-    @GetMapping("bookname/{name}")
+    @GetMapping("/bookname")
     public List<BookStore> getBookByName(@RequestParam String name){
         return bookService.getBookByName(name);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponceDto deleteDataById(@PathVariable int id){
+        return bookService.deleteById(id);
     }
 
 }
