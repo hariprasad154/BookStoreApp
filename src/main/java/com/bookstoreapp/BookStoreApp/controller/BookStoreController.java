@@ -20,13 +20,13 @@ public class BookStoreController {
     public ResponceDto addBook(@RequestBody BookStoreDto bookStoreDto){
         return bookService.addBook(bookStoreDto);
     }
-    @PutMapping("update/{id}")
-    public BookStore updateBook(@PathVariable int id , @RequestBody BookStoreDto bookStoreDto){
-        return bookService.updateBook(id,bookStoreDto);
+    @PutMapping("update/{book_id}")
+    public BookStore updateBook(@PathVariable int book_id , @RequestBody BookStoreDto bookStoreDto){
+        return bookService.updateBook(book_id,bookStoreDto);
     }
-    @GetMapping("/{id}")
-    public BookStore getById(@PathVariable int id){
-        return bookService.getById(id);
+    @GetMapping("/{book_id}")
+    public BookStore getById(@PathVariable int book_id){
+        return bookService.getById(book_id);
     }
     @GetMapping("/allbooks")
     public  ResponceDto getAllData(){
@@ -37,9 +37,17 @@ public class BookStoreController {
     public List<BookStore> getBookByName(@RequestParam String name){
         return bookService.getBookByName(name);
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponceDto deleteDataById(@PathVariable int id){
-        return bookService.deleteById(id);
+    @DeleteMapping("/delete/{book_id}")
+    public ResponceDto deleteDataById(@PathVariable int book_id){
+        return bookService.deleteById(book_id);
     }
 
+    @PutMapping("/changePrice/{token}")
+    public String ChangeBookPrice(@PathVariable String token ,@RequestParam int book_id ,@RequestParam float price){
+        return bookService.changeBookPrice(token,book_id,price);
+    }
+    @PutMapping("/changquantity/{token}")
+    public String ChangeBookQuantity(@PathVariable String token ,@RequestParam int book_id ,@RequestParam int quantity){
+        return bookService.changeBookQuantity(token,book_id,quantity);
+    }
 }

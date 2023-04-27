@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class BookStore {
     @Id
     @GeneratedValue
-    private int id;
+    private int book_id;
     private String name;
     private String author;
     private String description;

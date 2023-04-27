@@ -18,7 +18,7 @@ public class UserModel {
     private int id;
     private String firstName;
     private String lastName;
-    private String kyc;
+
     private LocalDate dob;
     private LocalDate registeredDate;
     private LocalDate updatedDate;
@@ -29,17 +29,17 @@ public class UserModel {
     private int otp;
     private boolean varifyOtp;
     private LocalDate purchaseDate;
-    private LocalDate expiryDate;
+//    private LocalDate expiryDate;
 
     public void updateData(UserDto userDto){
         this.firstName=userDto.getFirstName();
         this.lastName=userDto.getLastName();
         this.dob=userDto.getDob();
         this.email=userDto.getEmail();
-        this.expiryDate=userDto.getExpiryDate();
-        this.registeredDate=userDto.getRegisteredDate();
-        this.purchaseDate=userDto.getPurchaseDate();
-        this.kyc=userDto.getKyc();
+//        this.expiryDate=userDto.getExpiryDate();
+        this.registeredDate=LocalDate.now();
+//        this.purchaseDate=userDto.getPurchaseDate();
+//        this.kyc=userDto.getKyc();
         this.updatedDate=userDto.getUpdatedDate();
         this.password=userDto.getPassword();
     }

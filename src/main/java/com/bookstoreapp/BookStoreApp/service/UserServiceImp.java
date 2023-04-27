@@ -53,13 +53,17 @@ public class UserServiceImp implements UserService{
     public ResponceDto varify(Verification verification) {
         String email=verification.getEmail();
         int id =userRepo.findIdByEmail(email);
-        Optional<UserModel> data=userRepo.findById(id);
-        if (verification.getOtp()==data.get().getOtp()){
-            data.get().setVarifyOtp(true);
-            userRepo.save(data.get());
-            return new ResponceDto("The Varification done for email ", email);
-        }else {
-            return new ResponceDto("Varification not done check the mail ","give correct data");
+        if(id!=0) {
+            Optional<UserModel> data = userRepo.findById(id);
+            if (verification.getOtp() == data.get().getOtp()) {
+                data.get().setVarifyOtp(true);
+                userRepo.save(data.get());
+                return new ResponceDto("The Varification done for email ", email);
+            } else {
+                return new ResponceDto("Varification not done check the mail ", "give correct data");
+            }
+        }else{
+            return new ResponceDto("The email is not registerd ",email);
         }
 
          }
