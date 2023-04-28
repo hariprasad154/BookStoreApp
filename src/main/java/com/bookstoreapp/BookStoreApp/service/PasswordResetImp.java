@@ -20,10 +20,10 @@ public class PasswordResetImp implements PasswordReset {
     private EmailService emailService;
     @Override
     public String forgotPassword(String email) {
-        int id = userRepo.findIdByEmail(email);
-        UserModel userData = userRepo.findById(id).orElseThrow(() -> new CustomeException(" Employee Not found .. wih id: " + id));
-        Optional<UserModel> data = userRepo.findById(id);
-        if (id <= 0) {
+        UserModel id = userRepo.findEmail(email);
+        UserModel userData = userRepo.findById(id.getId()).orElseThrow(() -> new CustomeException(" Employee Not found .. wih id: " + id));
+        Optional<UserModel> data = userRepo.findById(id.getId());
+        if (id !=null) {
             return "The mail is Not Registered.....";
         } else {
             int genarateOtp = (int) ((Math.random() * 9999) % 8998) + 1001;
@@ -37,13 +37,13 @@ public class PasswordResetImp implements PasswordReset {
 
     @Override
     public String resetpassword(String email, String password) {
-        String mail = userRepo.findEmail(email);
+        UserModel mail = userRepo.findEmail(email);
         if (mail==null){
             return "email is not present";
         }
         else{
-            int id =userRepo.findIdByEmail(email);
-            Optional<UserModel> data = userRepo.findById(id);
+            UserModel id =userRepo.findEmail(email);
+            Optional<UserModel> data = userRepo.findById(id.getId());
             if ((data.isPresent() && (data.get().isVarifyOtp() == true))) {
                 data.get().setPassword(password);
                 userRepo.save(data.get());

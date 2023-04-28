@@ -32,14 +32,35 @@ public class CartServiceImp  implements  CartService{
     @Override
     public ResponceDto addCart(CartDto cartDto) {
         int user_id=jwtToken.decodeToken(cartDto.getToken());
-        Optional<UserModel> user = userRepo.findById(user_id);
+        Optional<UserModel> user = userRepo.findById(user_id);//
         if(user.isPresent()) {
-            BookStore book = bookService.getById(cartDto.getBook_id());
-            Cart cart = new Cart(user.get(), book, cartDto.quantity);
-            cartRepo.save(cart);
-            return new ResponceDto("",cart);
-        }else{
-            return new ResponceDto("The cart is not added "," ");
+            Cart cart=cartRepo.findDataById(user_id);
+//            Optional<Cart> cartData=cartRepo.findById(cart.getCart_id());
+            if(cart!=null){
+                int bookId=cart.getBookStore().getBook_id();
+                System.out.println(bookId+"book id ");
+                System.out.println(bookId+" ---------  data");
+                if(cartDto.getBook_id()==bookId){
+                    System.out.println("the Book is present in "+user_id);
+                    Optional<Cart> data=cartRepo.findDataByBookId(cartDto.book_id);
+                    System.out.println("the cart data is + "+data);
+                    data.get().setQuantity(data.get().getQuantity()+cartDto.getQuantity());
+                    return new ResponceDto("the cart is added ",cartRepo.save(data.get()));
+                }else {
+                    BookStore book = bookService.getById(cartDto.getBook_id());
+                    Cart cartDta = new Cart(user.get(), book, cartDto.quantity);
+
+                    return new ResponceDto("", cartRepo.save(cartDta));
+            }
+            }else {
+                BookStore book = bookService.getById(cartDto.getBook_id());
+                Cart cartDta = new Cart(user.get(), book, cartDto.quantity);
+                cartRepo.save(cartDta);
+                return new ResponceDto("", cartRepo.save(cartDta));
+            }
+        }
+        else{
+            return new ResponceDto("The cart is not added "," The data is not present with user ");
         }
 
     }
@@ -60,7 +81,7 @@ public class CartServiceImp  implements  CartService{
         System.out.println(id+"  id");
         int cartid=cartRepo.findIdByUserId(id);
         System.out.println(cartid +"cart id");
-        if(cartid==0){
+        if(cartid>0){
             return new ResponceDto("the data ",userRepo.findById(cartid));
         }else {
             return new ResponceDto("no data present with token ",null);

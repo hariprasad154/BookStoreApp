@@ -24,11 +24,11 @@ public class CartController {
     public ResponceDto removeCartById(@PathVariable int cart_id){
         return cartService.removeCartById(cart_id);
     }
-    @GetMapping("getcart/{cart_id}")
+    @GetMapping("/getcart/{cart_id}")
     public Cart getCartById(@PathVariable int cart_id){
         return cartService.getById(cart_id);
     }
-    @GetMapping("get/{token}")
+    @GetMapping("/get/{token}")
     public ResponceDto getCartByToken(@PathVariable("token")  String token){
         return cartService.getCartByToken(token);
     }

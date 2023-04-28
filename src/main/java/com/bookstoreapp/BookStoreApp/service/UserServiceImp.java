@@ -31,12 +31,12 @@ public class UserServiceImp implements UserService{
         String email =login.getEmail();
         String password=login.getPassword();
         String varifyPassword=userRepo.getPassword(email);
-        int id=userRepo.findIdByEmail(email);
+        UserModel id=userRepo.findEmail(email);
         boolean varify=userRepo.getVarifyOtp(email);
         System.out.println("token result -"+varify);
         if (password.equals(varifyPassword) &&varify==true ){
-            Optional<UserModel> data=userRepo.findById(id);
-            String token=jwtToken.createToken(id);
+            Optional<UserModel> data=userRepo.findById(id.getId());
+            String token=jwtToken.createToken(id.getId());
             data.get().setToken(token);
             userRepo.save(data.get());
             return new ResponceDto("login successfull..... for ", "token :- "+token);
@@ -52,9 +52,9 @@ public class UserServiceImp implements UserService{
     @Override
     public ResponceDto varify(Verification verification) {
         String email=verification.getEmail();
-        int id =userRepo.findIdByEmail(email);
-        if(id!=0) {
-            Optional<UserModel> data = userRepo.findById(id);
+        UserModel id =userRepo.findEmail(email);
+        if(id!=null) {
+            Optional<UserModel> data = userRepo.findById(id.getId());
             if (verification.getOtp() == data.get().getOtp()) {
                 data.get().setVarifyOtp(true);
                 userRepo.save(data.get());
@@ -71,7 +71,7 @@ public class UserServiceImp implements UserService{
     @Override
     public ResponceDto register(UserDto userDto) {
         String email=userDto.getEmail();
-        String mail=userRepo.findEmail(email);
+        UserModel mail=userRepo.findEmail(email);
         if(mail!=null){
             return new ResponceDto("Enter the unique Email id ",userDto.getEmail());
         }else {

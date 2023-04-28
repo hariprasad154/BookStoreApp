@@ -11,22 +11,17 @@ import lombok.NoArgsConstructor;
 public class Cart {
     @Id
     @GeneratedValue
-    private Long cart_id;
-
-    @JsonIgnoreProperties
-    @ManyToOne(fetch = FetchType.LAZY)
+    private int cart_id;
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private UserModel userModel;
-
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private BookStore bookStore;
 
     private int quantity;
-
-
-
     public Cart(UserModel userModel , BookStore bookStore, int quantity) {
         this.userModel = userModel;
         this.bookStore = bookStore;
