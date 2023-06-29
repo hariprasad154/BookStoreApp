@@ -26,6 +26,7 @@ public class Order {
     private String address;
 
     private int user_id;
+    
     private float totalPrice;
 
 
@@ -34,7 +35,8 @@ public class Order {
 @ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name = "book_id")
 private BookStore bookStore;
-    private Boolean cancel = false;
+
+private Boolean cancel = false;
 
 //    public void update(OrderDto orderDto){
 //        this.address=orderDto.getAddress();

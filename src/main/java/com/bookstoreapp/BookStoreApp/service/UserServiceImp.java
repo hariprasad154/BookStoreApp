@@ -34,7 +34,7 @@ public class UserServiceImp implements UserService{
         UserModel id=userRepo.findEmail(email);
         boolean varify=userRepo.getVarifyOtp(email);
         System.out.println("token result -"+varify);
-        if (password.equals(varifyPassword) &&varify==true ){
+        if (password.equals(varifyPassword) && varify){
             Optional<UserModel> data=userRepo.findById(id.getId());
             String token=jwtToken.createToken(id.getId());
             data.get().setToken(token);
@@ -42,7 +42,7 @@ public class UserServiceImp implements UserService{
             return new ResponceDto("login successfull..... for ", "token :- "+token);
         }
         else{
-            if(varifyPassword!=null &&varify == false){
+            if(varifyPassword!=null && !varify){
                 return new ResponceDto("The validation not done ","Validate the otp to login");
             }else {
                 return new ResponceDto(" check the email and password", "The incorrect credentials");
@@ -83,7 +83,6 @@ public class UserServiceImp implements UserService{
             return new ResponceDto("The data rigisterd succsusfully",userDto) ;
         }
     }
-
 /*
 The Curd opporations
  */

@@ -58,11 +58,12 @@ public class OrderServiceImp implements OrderService {
             Order placeOrder=new Order(user_id,quantity,book,price,orderDto.getAddress(),totalPrice,date);
             ordersPlaced.add(placeOrder);
             orderRepo.save(placeOrder);
+            cartRepo.deleteById(cartList.get(i).getCart_id());
+
         }
         emailService.sendEmail(userData.get().getEmail(),"The order is Succusfully placed Mr."+userData.get().getFirstName(),"The order Detailes are given "+ordersPlaced);
         return new ResponceDto("The Orders Placed is for the user ",ordersPlaced);
     }
-
     @Override
     public ResponceDto getById(int orderId) {
         return new ResponceDto("The Data for the order id ",orderRepo.findById(orderId));
@@ -72,16 +73,14 @@ public class OrderServiceImp implements OrderService {
     public ResponceDto getAllOrders() {
         return new ResponceDto("The oder Data",orderRepo.findAll());
     }
-
     @Override
     public ResponceDto getByToken(String token) {
         int userId=jwtToken.decodeToken(token);
         List<Order> userOrders=orderRepo.findByUserId(userId);
         return new ResponceDto("the orders related to user",userOrders);
     }
-
     @Override
-    public String cancelOrder(String token, int orderId) {
+    public String cancelOrder(String token, int orderId) {//add to cart tble
         int userId=jwtToken.decodeToken(token);
         Optional<Order> orderData=orderRepo.findById(orderId);
         System.out.println("--------------------\n"+orderData);
@@ -93,8 +92,7 @@ public class OrderServiceImp implements OrderService {
             } else {
                 return "The Cancelation not done check the userid ";
             }
-        }return "The Order id is not present";
-
+        }
+        return "The Order id is not present";
     }
-
 }

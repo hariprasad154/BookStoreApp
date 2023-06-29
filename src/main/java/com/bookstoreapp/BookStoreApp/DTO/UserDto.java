@@ -24,8 +24,5 @@ public class UserDto {
     private String email;
     @NotNull(message = "The password not be  null ")
     private String password;
-//    @JsonFormat(pattern = "dd-MM-yyyy")
-//    private LocalDate purchaseDate;
-//    @JsonFormat(pattern = "dd-MM-yyyy")
-//    private LocalDate expiryDate;
+
 }
